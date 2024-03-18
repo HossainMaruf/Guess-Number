@@ -1,11 +1,28 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { useState } from 'react';
+import { Button, StyleSheet, Text, TextInput, View } from 'react-native';
+
+// components
+import GoalInput from './components/GoalInput';
+import GoalItem from './components/GoalItem';
 
 export default function App() {
+  const [goals, setGoals] = useState([]);
+
+  const addGoalHandler = (goal) => {
+    setGoals(currentGoals => [...currentGoals, { key: Math.random().toString(), goal }]);
+  }
+
   return (
     <View style={styles.container}>
-      <Text>Maruf Hossain</Text>
-      <StatusBar style="auto" />
+      <GoalInput addGoal={addGoalHandler}/>
+      <View>
+        {goals.map(item => {
+          return (
+            <GoalItem key={item.key} goal={item.goal}/>
+          );
+        })}
+      </View>
     </View>
   );
 }
